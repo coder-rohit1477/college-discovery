@@ -7,6 +7,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 enum CollegeType {
@@ -42,7 +43,7 @@ model College {
   id          String      @id @default(cuid())
   name        String
   slug        String      @unique
-  description String?     @db.Text
+  description String?
   location    String
   city        String
   state       String
@@ -52,6 +53,8 @@ model College {
   type        CollegeType @default(PUBLIC)
   ranking     Int?
   established Int?
+  placementPercentage Float?
+  averagePackage      Decimal?
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
 
@@ -68,9 +71,9 @@ model College {
 model Course {
   id          String      @id @default(cuid())
   name        String
-  description String?     @db.Text
+  description String?
   duration    String
-  fees        Decimal?    @db.Decimal(12, 2)
+  fees        Decimal?
   level       CourseLevel @default(UNDERGRADUATE)
   collegeId   String
   createdAt   DateTime    @default(now())
@@ -85,7 +88,7 @@ model Course {
 model Review {
   id        String   @id @default(cuid())
   rating    Int      @default(5)
-  content   String?  @db.Text
+  content   String?
   userId    String
   collegeId String
   createdAt DateTime @default(now())

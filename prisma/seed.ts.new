@@ -1,0 +1,11 @@
+import { PrismaClient, CollegeType, CourseLevel } from '@prisma/client'
+
+const prisma = new PrismaClient({
+  // @ts-ignore
+  adapter: undefined,
+})
+
+async function main() {
+  console.log('Starting seeding...')
+  // ... rest of the seed logic
+}

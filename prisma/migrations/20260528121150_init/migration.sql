@@ -33,6 +33,8 @@ CREATE TABLE "College" (
     "type" "CollegeType" NOT NULL DEFAULT 'PUBLIC',
     "ranking" INTEGER,
     "established" INTEGER,
+    "placementPercentage" DOUBLE PRECISION,
+    "averagePackage" DECIMAL(65,30),
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -45,7 +47,7 @@ CREATE TABLE "Course" (
     "name" TEXT NOT NULL,
     "description" TEXT,
     "duration" TEXT NOT NULL,
-    "fees" DECIMAL(12,2),
+    "fees" DECIMAL(65,30),
     "level" "CourseLevel" NOT NULL DEFAULT 'UNDERGRADUATE',
     "collegeId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
