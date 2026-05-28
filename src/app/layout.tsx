@@ -5,6 +5,9 @@ import { cn } from "@/lib/utils";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "@/components/theme-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { QueryProvider } from "@/components/providers/query-provider";
+import { Navbar } from "@/components/layout/navbar";
+import { CompareBar } from "@/features/compare/components/compare-bar";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -49,9 +52,15 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <TooltipProvider>
-              {children}
-            </TooltipProvider>
+            <QueryProvider>
+              <TooltipProvider>
+                <Navbar />
+                <main className="flex-1">
+                  {children}
+                </main>
+                <CompareBar />
+              </TooltipProvider>
+            </QueryProvider>
           </ThemeProvider>
         </body>
       </html>
