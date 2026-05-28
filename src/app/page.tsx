@@ -1,73 +1,100 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Search, GraduationCap, MapPin, Star } from "lucide-react";
+import { Search, GraduationCap, MapPin, Star, TrendingUp, ArrowRightLeft } from "lucide-react";
 
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <section className="relative py-20 lg:py-32 bg-gradient-to-b from-primary/5 to-background overflow-hidden">
+      <section className="relative py-20 lg:py-32 bg-gradient-to-br from-primary/[0.03] via-background to-primary/[0.05] overflow-hidden">
+        {/* Decorative background elements */}
+        <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
+          <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/5 rounded-full blur-[120px] animate-pulse" />
+          <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-primary/10 rounded-full blur-[120px] animate-pulse delay-700" />
+        </div>
+
         <div className="container mx-auto px-4 relative z-10">
-          <div className="flex flex-col lg:flex-row items-center gap-12">
-            <div className="flex-1 text-center lg:text-left">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
+          <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+            <div className="flex-1 text-center lg:text-left space-y-6 animate-in fade-in slide-in-from-left-8 duration-700">
+              <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-bold tracking-wide uppercase border border-primary/20">
                 <GraduationCap className="h-4 w-4" />
-                <span>Find Your Future Today</span>
+                <span>Verified Admissions 2026</span>
               </div>
-              <h1 className="text-4xl lg:text-6xl font-extrabold tracking-tight mb-6">
-                Discover the Perfect <span className="text-primary">College</span> for Your Career
+              
+              <h1 className="text-5xl lg:text-7xl font-black tracking-tight leading-[1.1]">
+                Find the <span className="text-primary relative inline-block">
+                  Perfect
+                  <svg className="absolute -bottom-2 left-0 w-full h-3 text-primary/20" viewBox="0 0 100 10" preserveAspectRatio="none">
+                    <path d="M0 5 Q 25 0 50 5 T 100 5" fill="none" stroke="currentColor" strokeWidth="8" strokeLinecap="round" />
+                  </svg>
+                </span> College for Your Future
               </h1>
-              <p className="text-xl text-muted-foreground mb-10 max-w-2xl">
-                Browse through 40+ premier institutions, compare rankings, fees, and placements. 
-                Everything you need to make the right choice for your education.
+              
+              <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                Explore premier institutions across India. Compare top-tier colleges with verified data on rankings, placement stats, and campus life.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+              
+              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-4">
                 <Link href="/colleges">
-                  <Button size="lg" className="h-12 px-8 text-base">
-                    Explore Colleges
-                    <Search className="ml-2 h-4 w-4" />
+                  <Button size="lg" className="h-14 px-8 text-lg font-bold shadow-xl shadow-primary/20 transition-all hover:scale-105 active:scale-95 group">
+                    Start Exploring
+                    <Search className="ml-3 h-5 w-5 group-hover:scale-110 transition-transform" />
                   </Button>
                 </Link>
-                <Link href="/colleges?sortBy=ranking&sortOrder=asc">
-                  <Button size="lg" variant="outline" className="h-12 px-8 text-base">
-                    View Rankings
+                <Link href="/compare">
+                  <Button size="lg" variant="outline" className="h-14 px-8 text-lg font-bold backdrop-blur-sm border-2 transition-all hover:bg-primary/5 hover:border-primary/30 group">
+                    Compare Tools
+                    <ArrowRightLeft className="ml-3 h-5 w-5 group-hover:rotate-180 transition-transform duration-500" />
                   </Button>
                 </Link>
               </div>
             </div>
-            <div className="flex-1 relative">
-              <div className="relative w-full aspect-square max-w-[500px] mx-auto">
-                <div className="absolute inset-0 bg-primary/20 rounded-full blur-3xl" />
-                <div className="relative bg-card border rounded-2xl shadow-2xl p-6 rotate-3">
-                   {/* Decorative elements representing a college card */}
-                   <div className="flex items-center gap-4 mb-4">
-                     <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
-                       <GraduationCap className="h-6 w-6 text-primary" />
+            
+            <div className="flex-1 relative animate-in fade-in slide-in-from-right-12 duration-1000 delay-200">
+              <div className="relative w-full aspect-[4/3] max-w-[600px] mx-auto group">
+                {/* Main floating card */}
+                <div className="relative bg-card/60 backdrop-blur-xl border border-white/20 rounded-[2.5rem] shadow-2xl p-8 transition-transform duration-500 group-hover:-translate-y-4">
+                   <div className="flex items-center gap-6 mb-8">
+                     <div className="w-16 h-16 rounded-2xl bg-primary shadow-lg shadow-primary/30 flex items-center justify-center rotate-3 group-hover:rotate-0 transition-transform">
+                       <GraduationCap className="h-8 w-8 text-primary-foreground" />
                      </div>
-                     <div>
-                       <div className="h-4 w-32 bg-muted rounded mb-2" />
-                       <div className="h-3 w-20 bg-muted/60 rounded" />
+                     <div className="space-y-2">
+                       <div className="h-5 w-48 bg-primary/20 rounded-full animate-pulse" />
+                       <div className="h-3 w-28 bg-muted rounded-full" />
                      </div>
                    </div>
-                   <div className="space-y-3">
-                     <div className="h-2 w-full bg-muted rounded" />
-                     <div className="h-2 w-full bg-muted rounded" />
-                     <div className="h-2 w-2/3 bg-muted rounded" />
+                   <div className="space-y-4">
+                     <div className="h-2.5 w-full bg-muted rounded-full" />
+                     <div className="h-2.5 w-full bg-muted rounded-full" />
+                     <div className="h-2.5 w-3/4 bg-muted rounded-full" />
                    </div>
-                   <div className="mt-6 flex justify-between items-center">
-                     <div className="flex gap-1">
-                       {[1,2,3,4,5].map(i => <Star key={i} className="h-3 w-3 fill-primary text-primary" />)}
+                   <div className="mt-10 flex justify-between items-center border-t pt-8">
+                     <div className="flex gap-1.5">
+                       {[1,2,3,4,5].map(i => <Star key={i} className="h-4 w-4 fill-primary text-primary" />)}
                      </div>
-                     <div className="h-6 w-16 bg-primary/10 rounded" />
+                     <div className="h-10 w-24 bg-primary/10 rounded-xl" />
                    </div>
                 </div>
-                <div className="absolute -bottom-6 -left-6 bg-white dark:bg-zinc-900 border rounded-xl shadow-xl p-4 -rotate-6 hidden sm:block">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-green-500/10 flex items-center justify-center">
-                      <MapPin className="h-4 w-4 text-green-600" />
-                    </div>
-                    <span className="text-sm font-medium">40+ Locations</span>
+                
+                {/* Overlapping elements */}
+                <div className="absolute -bottom-6 -left-6 bg-background/80 backdrop-blur-md border rounded-3xl shadow-2xl p-5 -rotate-6 animate-bounce-slow hidden sm:flex items-center gap-4 border-primary/10">
+                  <div className="w-12 h-12 rounded-2xl bg-green-500/10 flex items-center justify-center ring-1 ring-green-500/20">
+                    <TrendingUp className="h-6 w-6 text-green-600" />
+                  </div>
+                  <div>
+                    <p className="text-[10px] uppercase tracking-widest font-black text-muted-foreground mb-0.5">Average Package</p>
+                    <p className="text-xl font-black text-foreground">₹18.5 LPA</p>
+                  </div>
+                </div>
+
+                <div className="absolute -top-8 -right-4 bg-background/80 backdrop-blur-md border rounded-3xl shadow-2xl p-5 rotate-6 animate-float hidden sm:flex items-center gap-4 border-primary/10">
+                  <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center ring-1 ring-primary/20">
+                    <MapPin className="h-6 w-6 text-primary" />
+                  </div>
+                  <div>
+                    <p className="text-[10px] uppercase tracking-widest font-black text-muted-foreground mb-0.5">Cities</p>
+                    <p className="text-xl font-black text-foreground">20+ Pan India</p>
                   </div>
                 </div>
               </div>
@@ -77,24 +104,24 @@ export default function Home() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 bg-muted/30 border-y">
+      <section className="py-12 bg-muted/30 border-y">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
-            <div>
-              <div className="text-4xl font-bold text-primary mb-2">40+</div>
-              <div className="text-muted-foreground">Premier Colleges</div>
+            <div className="space-y-1">
+              <div className="text-4xl font-black text-primary">40+</div>
+              <div className="text-sm font-bold uppercase tracking-widest text-muted-foreground">Colleges</div>
             </div>
-            <div>
-              <div className="text-4xl font-bold text-primary mb-2">20+</div>
-              <div className="text-muted-foreground">Cities Covered</div>
+            <div className="space-y-1">
+              <div className="text-4xl font-black text-primary">20+</div>
+              <div className="text-sm font-bold uppercase tracking-widest text-muted-foreground">Cities</div>
             </div>
-            <div>
-              <div className="text-4xl font-bold text-primary mb-2">100%</div>
-              <div className="text-muted-foreground">Verified Data</div>
+            <div className="space-y-1">
+              <div className="text-4xl font-black text-primary">100%</div>
+              <div className="text-sm font-bold uppercase tracking-widest text-muted-foreground">Verified</div>
             </div>
-            <div>
-              <div className="text-4xl font-bold text-primary mb-2">Free</div>
-              <div className="text-muted-foreground">Comparison Tools</div>
+            <div className="space-y-1">
+              <div className="text-4xl font-black text-primary">Free</div>
+              <div className="text-sm font-bold uppercase tracking-widest text-muted-foreground">Access</div>
             </div>
           </div>
         </div>
