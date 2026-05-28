@@ -18,11 +18,14 @@ import {
   ArrowLeft,
   ArrowRightLeft,
   Clock,
+  Heart,
 } from "lucide-react";
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { useCompareStore } from "@/stores/use-compare-store";
 import { cn } from "@/lib/utils";
+import { useSavedColleges } from "@/features/colleges/hooks/use-saved-colleges";
+import { useAuth, SignInButton } from "@clerk/nextjs";
 
 async function fetchCollegeBySlug(slug: string): Promise<CollegeWithDetails> {
   const response = await fetch(`/api/colleges/compare?slugs=${slug}`);
@@ -34,7 +37,9 @@ async function fetchCollegeBySlug(slug: string): Promise<CollegeWithDetails> {
 function CollegeDetailContent() {
   const { slug } = useParams();
   const router = useRouter();
+  const { userId } = useAuth();
   const { selectedCollegeSlugs, addCollege, removeCollege } = useCompareStore();
+  const { isSaved, toggleSave, isMutating } = useSavedColleges();
   
   const { data: college, isLoading, isError } = useQuery({
     queryKey: ["college", slug],
@@ -44,6 +49,7 @@ function CollegeDetailContent() {
 
   const isSelected = college ? selectedCollegeSlugs.includes(college.slug) : false;
   const isMaxReached = selectedCollegeSlugs.length >= 4;
+  const saved = college ? isSaved(college.id) : false;
 
   const toggleCompare = () => {
     if (!college) return;
@@ -52,6 +58,11 @@ function CollegeDetailContent() {
     } else {
       addCollege(college.slug);
     }
+  };
+
+  const handleSave = async () => {
+    if (!college || !userId) return;
+    await toggleSave(college.id);
   };
 
   if (isLoading) return <CollegeDetailSkeleton />;
@@ -218,9 +229,35 @@ function CollegeDetailContent() {
               </div>
 
               <div className="space-y-4 pt-4">
-                <Button className="w-full h-14 text-lg font-black shadow-xl shadow-primary/20 rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98]" size="lg">
-                  Apply Now
-                </Button>
+                <div className="flex gap-3">
+                  <Button className="flex-1 h-14 text-lg font-black shadow-xl shadow-primary/20 rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98]" size="lg">
+                    Apply Now
+                  </Button>
+                  {userId ? (
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      className={cn(
+                        "h-14 w-14 rounded-2xl border-2 transition-all",
+                        saved ? "bg-red-50 text-red-500 border-red-100 hover:bg-red-100" : "hover:bg-muted"
+                      )}
+                      onClick={handleSave}
+                      disabled={isMutating}
+                    >
+                      <Heart className={cn("h-6 w-6", saved && "fill-current")} />
+                    </Button>
+                  ) : (
+                    <SignInButton mode="modal">
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        className="h-14 w-14 rounded-2xl border-2 hover:bg-muted"
+                      >
+                        <Heart className="h-6 w-6" />
+                      </Button>
+                    </SignInButton>
+                  )}
+                </div>
                 <Button 
                   variant={isSelected ? "secondary" : "outline"} 
                   className={cn(

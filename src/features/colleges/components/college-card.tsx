@@ -3,20 +3,26 @@ import { CollegeWithDetails } from "../types";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { MapPin, GraduationCap, Star, TrendingUp, ArrowRightLeft, Eye } from "lucide-react";
+import { MapPin, GraduationCap, Star, TrendingUp, ArrowRightLeft, Eye, Heart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useCompareStore } from "@/stores/use-compare-store";
 import { cn } from "@/lib/utils";
+import { useSavedColleges } from "../hooks/use-saved-colleges";
+import { useAuth, SignInButton } from "@clerk/nextjs";
 
 interface CollegeCardProps {
   college: CollegeWithDetails;
 }
 
 export function CollegeCard({ college }: CollegeCardProps) {
+  const { userId } = useAuth();
   const { selectedCollegeSlugs, addCollege, removeCollege } = useCompareStore();
+  const { isSaved, toggleSave, isMutating } = useSavedColleges();
+  
   const isSelected = selectedCollegeSlugs.includes(college.slug);
   const isMaxReached = selectedCollegeSlugs.length >= 4;
+  const saved = isSaved(college.id);
 
   const toggleCompare = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -25,6 +31,12 @@ export function CollegeCard({ college }: CollegeCardProps) {
     } else {
       addCollege(college.slug);
     }
+  };
+
+  const handleSave = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (!userId) return;
+    await toggleSave(college.id);
   };
 
   return (
@@ -58,13 +70,38 @@ export function CollegeCard({ college }: CollegeCardProps) {
            </Link>
         </div>
 
-        <div className="absolute top-4 right-4 z-10">
+        <div className="absolute top-4 right-4 z-10 flex flex-col gap-2">
           <Badge className={cn(
-            "backdrop-blur-md px-3 py-1 font-bold border-none",
+            "backdrop-blur-md px-3 py-1 font-bold border-none self-end",
             college.type === "PUBLIC" ? "bg-blue-500/80 text-white" : "bg-orange-500/80 text-white"
           )}>
             {college.type}
           </Badge>
+
+          {userId ? (
+            <Button
+              variant="secondary"
+              size="icon"
+              className={cn(
+                "rounded-full h-10 w-10 shadow-xl transition-all duration-300 border-none",
+                saved ? "bg-red-50 text-red-500 hover:bg-red-100" : "bg-white/80 hover:bg-white text-gray-600"
+              )}
+              onClick={handleSave}
+              disabled={isMutating}
+            >
+              <Heart className={cn("h-5 w-5", saved && "fill-current")} />
+            </Button>
+          ) : (
+            <SignInButton mode="modal">
+              <Button
+                variant="secondary"
+                size="icon"
+                className="rounded-full h-10 w-10 shadow-xl bg-white/80 hover:bg-white text-gray-600 border-none"
+              >
+                <Heart className="h-5 w-5" />
+              </Button>
+            </SignInButton>
+          )}
         </div>
 
         {isSelected && (
